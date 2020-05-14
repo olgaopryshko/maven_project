@@ -1,0 +1,33 @@
+{
+      "football": [
+         "FC Barcelona",
+         "Real Madrid",
+         "Sevilla FC",
+         "Real Sociedad",
+         "Getafe CF",
+         "Atlético de Madrid",
+         "Valencia CF",
+         "Villarreal CF",
+         "Granada CF",
+         "Athletic Club"
+      ],
+      "basketball": [
+            "Atlanta Hawks",
+            "Boston Celtics",
+            "Brooklyn Nets",
+            "Charlotte Hornets",
+            "Chicago Bulls",
+            "Cleveland Cavaliers",
+            "Dallas Nuggets"
+      ],
+      "hockey": [
+            "CSKA",
+            "SKA",
+            "Jokerit",
+            "Dynamo Msk",
+            "Spartak",
+            "Lokomotiv",
+            "Vityaz",
+            "Torpedo"
+      ]
+}

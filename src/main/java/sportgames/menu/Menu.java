@@ -8,9 +8,11 @@ import sportgames.individual.PersonList;
 import sportgames.participants.Person;
 import sportgames.participants.Team;
 import sportgames.team.TeamList;
+import sportgames.utils.JsonConverter;
 import sportgames.utils.PropertiesRW;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -21,6 +23,7 @@ public class Menu {
     private PersonList personList = new PersonList();
     private Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     private Schedule schedule = new Schedule(personList, teamList);
+    private JsonConverter jsonConverter = new JsonConverter();
 
     private String chooseGame() {
         System.out.println("Choose a game: 1 - Football; 2 - Basketball; 3 - Hockey; 4 - Tennis; 5 - Badminton;");
@@ -65,12 +68,15 @@ public class Menu {
     }
 
     public void run() {
+        LOGGER.debug("Loading teams...");
+        readJsonFile();
         LOGGER.debug("Displaying menu...");
         try {
             while (true) {
                 System.out.println("Choose an action: 1 - Enter data; 2 - Print data; 3 - Delete data; 4 - Play a random game;");
                 System.out.println("5 - Read data from file; 6 - Save data to file;");
                 System.out.println("7 - Load property value; 8 - Save property value;");
+                System.out.println("9 - Convert to Json; 10 - Convert to Json file");
                 System.out.println("Any other number - exit program");
                 int action = scanner.nextInt();
                 switch (action) {
@@ -99,6 +105,15 @@ public class Menu {
                     case 8:
                         saveProperty();
                         break;
+                    case 9:
+                        javaToJson();
+                        break;
+                    case 10:
+                        addToJsonFile();
+                        break;
+                    case 11:
+                        readJsonFile();
+                        break;
                     default:
                         System.out.println("Goodbye!");
                         return;
@@ -112,6 +127,7 @@ public class Menu {
     }
 
     private void saveProperty() {
+        LOGGER.debug("Property saved");
         System.out.println("Property name:");
         String propertyName = scanner.next();
         System.out.println("Property value:");
@@ -122,6 +138,7 @@ public class Menu {
     }
 
     private void loadProperty() {
+        LOGGER.debug("Property loaded");
         System.out.println("Enter property name");
         String propertyName = scanner.next();
         System.out.println("Enter property file path");
@@ -132,6 +149,7 @@ public class Menu {
 
 
     private void loadData() {
+        LOGGER.debug("File loaded");
         String game = chooseGame();
         System.out.println("Enter file path:");
         String filePath = scanner.next();
@@ -152,6 +170,7 @@ public class Menu {
 
 
     private void saveData() {
+        LOGGER.debug("Saved to file!");
         String game = chooseGame();
         System.out.println("Enter file path:");
         String filePath = scanner.next();
@@ -253,6 +272,61 @@ public class Menu {
         } catch (IndexOutOfBoundsException | NoSuchElementException e) {
             LOGGER.error(e);
             LOGGER.info("There's no such index");
+        }
+    }
+
+    public void javaToJson() {
+        LOGGER.debug("Json conversion");
+        String game = chooseGame();
+        switch (game) {
+            case "football":
+            case "basketball":
+            case "hockey":
+                LOGGER.debug(jsonConverter.javaToJsonStr(teamList.getTeamList(game)));
+                break;
+            case "tennis":
+            case "badminton":
+                jsonConverter.javaToJsonStr(personList.getPlayersList(game));
+                break;
+            default:
+                LOGGER.warn("Invalid input!");
+        }
+    }
+
+    public void addToJsonFile() {
+        LOGGER.debug("Conversion to Json file");
+        String game = chooseGame();
+        switch (game) {
+            case "football":
+            case "basketball":
+            case "hockey":
+                jsonConverter.javaToJsonFile(teamList.getTeamList(game), "/tmp/teams.json");
+                break;
+            case "tennis":
+            case "badminton":
+                jsonConverter.javaToJsonFile(personList.getPlayersList(game), "/tmp/players.json");
+                break;
+            default:
+                LOGGER.warn("Invalid input!");
+        }
+
+    }
+
+    public void readJsonFile() {
+        String fileName = "teams.json";
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        Map<String, List<String>> allTeams = (Map<String, List<String>>) jsonConverter.jsonFileToPOJO(file);
+
+        String[] teamSports = new String[]{"football", "basketball", "hockey"};
+
+        for (String sport :
+                teamSports) {
+            List<String> footballTeams = allTeams.get(sport);
+            for (String team :
+                    footballTeams) {
+                teamList.addTeam(sport, new Team(team));
+            }
         }
     }
 }
