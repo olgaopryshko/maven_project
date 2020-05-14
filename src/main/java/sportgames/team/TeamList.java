@@ -3,6 +3,7 @@ package sportgames.team;
 import org.apache.log4j.Logger;
 import sportgames.participants.Team;
 import sportgames.utils.FileRW;
+import sportgames.utils.JsonConverter;
 
 import java.util.*;
 
@@ -13,6 +14,7 @@ public class TeamList {
     List<Team> listFootballTeams;
     List<Team> listHockeyTeams;
     Map<String, List<Team>> mapCollections;
+    JsonConverter jsonConverter;
 
     public TeamList() {
         listBasketballTeams = new ArrayList<>();
@@ -62,6 +64,8 @@ public class TeamList {
         }
         FileRW.writeFile(filePath, lines);
     }
+
+
 
     public void addTeam(String sportName, Team team) {
         LOGGER.debug("Adding " + team + " to " + sportName + " teams");
