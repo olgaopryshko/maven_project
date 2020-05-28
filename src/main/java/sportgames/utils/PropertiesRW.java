@@ -1,13 +1,12 @@
 package sportgames.utils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Properties;
 
 public class PropertiesRW {
+
     public static String loadProperty(String path, String key)  {
 
         Properties properties = new Properties();

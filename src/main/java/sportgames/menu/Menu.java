@@ -1,5 +1,6 @@
 package sportgames.menu;
 
+import DB.DB;
 import sportgames.Schedule;
 import sportgames.Weekday;
 import sportgames.base.SportsGame;
@@ -24,6 +25,7 @@ public class Menu {
     private Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
     private Schedule schedule = new Schedule(personList, teamList);
     private JsonConverter jsonConverter = new JsonConverter();
+    private DB db = new DB();
 
     private String chooseGame() {
         System.out.println("Choose a game: 1 - Football; 2 - Basketball; 3 - Hockey; 4 - Tennis; 5 - Badminton;");
@@ -113,6 +115,17 @@ public class Menu {
                         break;
                     case 11:
                         readJsonFile();
+                        break;
+                    case 12:
+                        db.printSports();
+                        break;
+                    case 13:
+                        // ask the user for sport name and type
+                        System.out.println("Sport name:");
+                        String name = scanner.next();
+                        System.out.println("Sport type:");
+                        String type = scanner.next();
+                        db.addSport(name, type);
                         break;
                     default:
                         System.out.println("Goodbye!");
