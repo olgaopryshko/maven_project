@@ -16,9 +16,9 @@ public class PersonList {
     Map<String, List<Person>> mapPersonCollection;
 
     public PersonList() {
-        listOfBadmintonPlayers = new ArrayList<Person>();
-        listOfTennisPlayers = new ArrayList<Person>();
-        mapPersonCollection = new HashMap<String, List<Person>>();
+        listOfBadmintonPlayers = new ArrayList<>();
+        listOfTennisPlayers = new ArrayList<>();
+        mapPersonCollection = new HashMap<>();
 
         mapPersonCollection.put("badminton", listOfBadmintonPlayers);
         mapPersonCollection.put("tennis", listOfTennisPlayers);

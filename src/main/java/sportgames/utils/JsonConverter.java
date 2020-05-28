@@ -8,14 +8,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
-import sportgames.team.TeamList;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class JsonConverter {
     private static final Logger LOGGER = Logger.getLogger(JsonConverter.class);
@@ -77,5 +72,5 @@ public class JsonConverter {
         }
         return object;
     }
-    
+
 }
